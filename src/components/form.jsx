@@ -117,15 +117,14 @@ function Formulario() {
 
         <Form.Group className="mb-3" controlId="exampleForm.SelectCustom">
             <Form.Label>Select type of event you attended</Form.Label>
-            <Form.Control
-              as="select"
+            <Form.Select
               name="tipo_evento"
               value={formData.tipo_evento}
               onChange={handleChange}
             >
                 <option value=" Latampaper México 2024">Latampaper México 2024</option>
                 <option value="LatamCORR México 2024">LatamCORR México 2024</option>
-            </Form.Control>
+            </Form.Select>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.pais">

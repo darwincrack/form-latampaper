@@ -163,7 +163,7 @@ function Formulario() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>You can summarize your experience at {formData.tipo_evento} in a short sentence</Form.Label>
+            <Form.Label>Can you summarize your experience at {formData.tipo_evento} in a short sentence</Form.Label>
             <Form.Control  as="textarea"  name="corta_frase" value={formData.corta_frase} onChange={handleChange}/>
         </Form.Group>
 

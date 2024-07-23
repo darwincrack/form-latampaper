@@ -79,8 +79,7 @@ function Formulario() {
 
               if (result.result === 'success') {
                 setSuccessMessage('Thanks for your comment!');
-                window.scrollTo(0, 0)
-
+                document.body.scrollIntoView({ behavior: 'smooth' });
                 setFormData({  nombre: '',
                   tipo_evento: 'Latampaper México 2024',
                   nombre: '',
@@ -163,7 +162,7 @@ function Formulario() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label> Do you have any comments or suggestions that you would like to share with us?            </Form.Label>
+            <Form.Label> Do you have any comments or suggestions that you would like to share with us?</Form.Label>
             <Form.Control  as="textarea"  name="comentario_sugerencia" value={formData.comentario_sugerencia} onChange={handleChange}/>
         </Form.Group>
         <p><small className="text-danger">(*)</small> Required fields</p>

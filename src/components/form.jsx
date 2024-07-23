@@ -19,6 +19,8 @@ function Formulario() {
     const [fechaHora, setFechaHora] = useState(obtenerFechaHora());
     const [validated, setValidated] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     const [isLoading, setIsLoading] = useState(false);
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState({});
@@ -88,16 +90,19 @@ function Formulario() {
                   util_evento: '',
                   corta_frase: '',
                   comentario_sugerencia: '' });
-                  setValidated(false);
+              
 
               } else {
-                setSuccessMessage('There was an error sending your comment. Please try again.');
+                setErrorMessage('There was an error sending your comment. Please try again.');
               }
             } catch (error) {
-                setSuccessMessage('There was an error sending your comment. Please try again.');
+      
+
+                setErrorMessage('There was an error sending your comment. Please try again.');
 
             }
-
+            setIsLoading(false);
+            setValidated(false);
 
         }
     };
@@ -106,6 +111,8 @@ function Formulario() {
 
     <div>
          {successMessage && <Alert variant="success">{successMessage}</Alert>}
+         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
 
         <Form.Group className="mb-3" controlId="exampleForm.SelectCustom">

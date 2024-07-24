@@ -27,7 +27,7 @@ function Formulario() {
    
     const [formData, setFormData] = useState({
         nombre: '',
-        tipo_evento: 'Latampaper México 2024',
+        tipo_evento: '',
         nombre_empresa: '',
         cargo_empresa: '',
         util_evento: '',
@@ -83,7 +83,7 @@ function Formulario() {
                 setSuccessMessage('Thanks for your comment!');
                 document.body.scrollIntoView({ behavior: 'smooth' });
                 setFormData({  nombre: '',
-                  tipo_evento: 'Latampaper México 2024',
+                  tipo_evento: '',
                   nombre: '',
                   nombre_empresa: '',
                   cargo_empresa: '',
@@ -121,8 +121,9 @@ function Formulario() {
               name="tipo_evento"
               value={formData.tipo_evento}
               onChange={handleChange}
-            >
-                <option value=" Latampaper México 2024">Latampaper México 2024</option>
+            required>
+                <option value="">Select type of event</option>
+                <option value="Latampaper México 2024">Latampaper México 2024</option>
                 <option value="LatamCORR México 2024">LatamCORR México 2024</option>
             </Form.Select>
         </Form.Group>

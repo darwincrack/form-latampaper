@@ -5,7 +5,7 @@ import { obtenerFechaHora } from '../utils';
 import TitlePage from './titlePage.jsx';
 
 
-function Formulario() {
+function FormEs() {
 
     const [fechaHora, setFechaHora] = useState(obtenerFechaHora());
     const [validated, setValidated] = useState(false);
@@ -27,7 +27,7 @@ function Formulario() {
         comentario_sugerencia: '',
         pais:'',
         fecha: '',
-        lang: 'ing'
+        lang: 'es'
 
       });
 
@@ -65,8 +65,7 @@ function Formulario() {
 
                 formData.pais = selectedCountry.label;
                 formData.fecha = fechaHora;
-                formData.lang = 'en';
-                console.log(formData);
+                formData.lang = 'es';
                 const response =  await fetch(Sheet_Url, {
                 method: 'POST',
                 body: new URLSearchParams(formData)
@@ -75,7 +74,7 @@ function Formulario() {
               setIsLoading(false);
 
               if (result.result === 'success') {
-                setSuccessMessage('Thanks for your comment!');
+                setSuccessMessage('Gracias por tu comentario!');
                 document.body.scrollIntoView({ behavior: 'smooth' });
                 setFormData({  nombre: '',
                   apellido: '',
@@ -105,27 +104,28 @@ function Formulario() {
   return (
 
     <div>
-        <TitlePage titulo="Feedback form"/>
+
+        <TitlePage titulo="Formulario de comentarios"/>
          {successMessage && <Alert variant="success">{successMessage}</Alert>}
          {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
 
         <Form.Group className="mb-3" controlId="exampleForm.SelectCustom">
-            <Form.Label><small className="text-danger">*</small> Select type of event you attended</Form.Label>
+            <Form.Label><small className="text-danger">*</small>Seleccione el evento</Form.Label>
             <Form.Select
               name="tipo_evento"
               value={formData.tipo_evento}
               onChange={handleChange}
             required>
-                <option value="">Select the event</option>
+                <option value="">Seleccione el evento</option>
                 <option value="Latampaper México 2024">Latampaper México 2024</option>
                 <option value="LatamCORR México 2024">LatamCORR México 2024</option>
             </Form.Select>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.pais">
-            <Form.Label><small className="text-danger">*</small>Country</Form.Label>
+            <Form.Label><small className="text-danger">*</small>País</Form.Label>
             <Select
               options={countries}
               value={selectedCountry}
@@ -135,49 +135,48 @@ function Formulario() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.nombre">
-            <Form.Label><small className="text-danger">*</small>Name</Form.Label>
+            <Form.Label><small className="text-danger">*</small>Nombre</Form.Label>
             <Form.Control type="text" name="nombre" value={formData.nombre} onChange={handleChange} required/>
         </Form.Group>
 
-        
         <Form.Group className="mb-3" controlId="exampleForm.nombre">
-            <Form.Label>Last Name</Form.Label>
+            <Form.Label>Apellido</Form.Label>
             <Form.Control type="text" name="apellido" value={formData.apellido} onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.nombre_empresa">
-            <Form.Label>Company</Form.Label>
+            <Form.Label>Empresa</Form.Label>
             <Form.Control type="text" name="nombre_empresa" value={formData.nombre_empresa} onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Job position</Form.Label>
+            <Form.Label>Cargo</Form.Label>
             <Form.Control type="text" name="cargo_empresa" value={formData.cargo_empresa} onChange={handleChange} />
         </Form.Group>
 
 
 
 
-        <p className="fs-2">Your comments</p>
+        <p className="fs-2">Tus comentarios</p>
 
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Briefly tell us why you found the event useful</Form.Label>
+            <Form.Label>Díganos brevemente por que le resulto útil el evento</Form.Label>
             <Form.Control  as="textarea"  name="util_evento" value={formData.util_evento} onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Can you summarize your experience at {formData.tipo_evento} in a short sentence</Form.Label>
+            <Form.Label>Puede resumir su experiencia en una frase corta</Form.Label>
             <Form.Control  as="textarea"  name="corta_frase" value={formData.corta_frase} onChange={handleChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label> Do you have any comments or suggestions that you would like to share with us?</Form.Label>
+            <Form.Label>¿Tiene algún comentario o sugerencia que quiera compartir con nosotros?</Form.Label>
             <Form.Control  as="textarea"  name="comentario_sugerencia" value={formData.comentario_sugerencia} onChange={handleChange}/>
         </Form.Group>
-        <p><small className="text-danger">(*)</small> Required fields</p>
+        <p><small className="text-danger">(*)</small> Campos requeridos</p>
         <div className="d-grid gap-2">
             <Button variant="primary" type="submit" disabled={isLoading} size="lg">
-                {isLoading ? <Spinner animation="border" size="sm" /> : 'Send'}
+                {isLoading ? <Spinner animation="border" size="sm" /> : 'Enviar'}
             </Button>
         </div>
         </Form>
@@ -185,4 +184,4 @@ function Formulario() {
   );
 }
 
-export default Formulario;
+export default FormEs;

@@ -112,7 +112,7 @@ function Formulario() {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
 
         <Form.Group className="mb-3" controlId="exampleForm.SelectCustom">
-            <Form.Label><small className="text-danger">*</small> Select type of event you attended</Form.Label>
+            <Form.Label><small className="text-danger">*</small> Select the event</Form.Label>
             <Form.Select
               name="tipo_evento"
               value={formData.tipo_evento}
@@ -166,7 +166,7 @@ function Formulario() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Can you summarize your experience at {formData.tipo_evento} in a short sentence</Form.Label>
+            <Form.Label>Can you summarize your experience {formData.tipo_evento} in a short sentence</Form.Label>
             <Form.Control  as="textarea"  name="corta_frase" value={formData.corta_frase} onChange={handleChange}/>
         </Form.Group>
 

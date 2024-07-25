@@ -104,7 +104,7 @@ function FormEs() {
   return (
 
     <div>
-        <TitlePage titulo="formulário de comentários"/>
+        <TitlePage titulo="Avaliação do Evento"/>
          {successMessage && <Alert variant="success">{successMessage}</Alert>}
          {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 

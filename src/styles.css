@@ -1,5 +1,5 @@
 
-.body{
+body{
     background: #2c299f;
 }
 .item{
@@ -18,7 +18,8 @@ margin: auto;
 
 .item .body{
     background: white;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     padding: 7px;
     margin-top: 15px;
     min-height: 100px;
@@ -26,8 +27,16 @@ margin: auto;
      overflow: hidden;
 }
 
+.firma{
+    background: white;
+}
 
 
+.firma {
+    height: 162px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
 .firma p {
     margin: 0;
     color: #044970;
@@ -61,15 +70,23 @@ blockquote{
 }
 
 .slick-next {
-    right: 0;
+    right: 14px;
 }
 
 .slick-prev:before, .slick-next:before {
     font-size: 29px;
-    color: blue;
+    color: #2c299f;
 }
 
 .slick-prev {
-    left: 0;
+    left: 4px;
     z-index: 999;
+}
+
+.slick-slider{
+    background: #2c299f;
+}
+
+.slick-slide {
+    padding: 5px;
 }

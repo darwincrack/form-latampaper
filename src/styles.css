@@ -1,3 +1,7 @@
+
+.body{
+    background: #2c299f;
+}
 .item{
     text-align: center;
 }
@@ -17,8 +21,8 @@ margin: auto;
     border-radius: 5px;
     padding: 7px;
     margin-top: 15px;
-    min-height: 200px;
-    height: 200px;
+    min-height: 100px;
+    height: 130px;
      overflow: hidden;
 }
 
@@ -27,6 +31,7 @@ margin: auto;
 .firma p {
     margin: 0;
     color: #044970;
+    font-size: 13px;
 }
 
 .item .body p {
@@ -49,4 +54,22 @@ overflow-y: scroll;
     width: 100px !important;
    height: auto !important;
    border-radius: 0 !important;
+}
+
+blockquote{
+    font-size: 13px;
+}
+
+.slick-next {
+    right: 0;
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: 29px;
+    color: blue;
+}
+
+.slick-prev {
+    left: 0;
+    z-index: 999;
 }

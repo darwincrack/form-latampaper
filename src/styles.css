@@ -1,0 +1,52 @@
+.item{
+    text-align: center;
+}
+.item img{
+
+border-radius: 50%;
+width: 100px;
+height: 100px;
+border: 3px solid white;
+position: relative;
+margin: auto;
+
+}
+
+.item .body{
+    background: white;
+    border-radius: 5px;
+    padding: 7px;
+    margin-top: 15px;
+    min-height: 200px;
+    height: 200px;
+     overflow: hidden;
+}
+
+
+
+.firma p {
+    margin: 0;
+    color: #044970;
+}
+
+.item .body p {
+    font-size: 12px;
+text-align:left;
+
+}
+
+.owl-nav button.owl-next,
+.owl-nav button.owl-prev{
+    color: white;
+font-size: 20px;
+}
+
+.item .body:hover{
+overflow-y: scroll;
+}
+
+.logotipos {
+    width: 100px !important;
+   height: auto !important;
+   border-radius: 0 !important;
+}

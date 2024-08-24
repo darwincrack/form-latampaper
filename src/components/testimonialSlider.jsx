@@ -9,10 +9,10 @@ const TestimonialSlider = (props) => {
 
   const testimonios = props.testimonios;
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToScroll: 4,
     autoplay: true,
     speed: 500,
     autoplaySpeed: 2000,

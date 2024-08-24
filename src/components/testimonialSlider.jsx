@@ -3,9 +3,11 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../styles.css';
+import parse from 'html-react-parser';
 
 const TestimonialSlider = (props) => {
 
+  const testimonios = props.testimonios;
   const settings = {
     dots: true,
     infinite: true,
@@ -51,14 +53,14 @@ const TestimonialSlider = (props) => {
   return (
     <div className="testimonial-slider">
       <Slider {...settings}>
-        {props.testimonios.map((testimonial, index) => (
+        {testimonios.map((testimonial, index) => (
           <div key={index} className="item">
             <img src={testimonial.img_flag} alt="bandera pais" className="img" />
             <div className="body">
-              <blockquote>{testimonial.util_evento}</blockquote>
+              <span>{parse(testimonial.util_evento)}</span>
             </div>
             <div className="firma">
-              <p>{testimonial.nombre}</p>
+              <p>{testimonial.nombre} {testimonial.apellido}</p>
               <p>{testimonial.cargo_empresa}, {testimonial.nombre_empresa} </p>
               <p>{testimonial.pais}</p>
               <img src={testimonial.img_empresa} alt={testimonial.nombre_empresa} className="logotipos" />

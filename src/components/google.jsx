@@ -16,11 +16,14 @@ function Google() {
         return <div>Error!</div>;
       }
 
-      console.log(data[0]['data']);
 
+      const reverseTestimonios = [...data[0]['data']]; // Crea una copia
+      reverseTestimonios.reverse(); // Invierte el orden
+
+     // console.log(reverseTestimonios.reverse());
   return (
     <>
-    <TestimonialSlider testimonios = {data[0]['data']} />
+    <TestimonialSlider testimonios = {reverseTestimonios} />
     </>
   )
 }

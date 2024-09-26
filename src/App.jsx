@@ -14,7 +14,9 @@ function App() {
             <Route path="/" element={ <Form /> } />
             <Route path="es" element={ <FormEs /> } />
             <Route path="port" element={ <FormPort /> } />
-            <Route path="testimonios" element={ <Google /> } />
+
+            <Route path="/testimonios/:id?" element={<Google />} />
+
           </Routes>
     </div>
   </div>

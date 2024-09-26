@@ -92,3 +92,40 @@ blockquote{
 .slick-slide {
     padding: 5px;
 }
+
+.item.min .img{
+    width: 120px;
+    height: 120px;  
+}
+
+.item.min .body{
+
+    border-radius: 5px;
+    padding: 7px;
+    margin-top: 15px;
+    overflow: hidden;
+    margin-bottom: 10px;
+
+    min-height: auto;
+    height: auto;
+    background: #0073b2;
+    
+}
+
+.item.min .firma{
+    height: auto;
+    color:white;
+    background: #0073b2;
+
+}
+
+.testimonial-slider.min .slick-slider{
+    color:white;
+    background: transparent !important;
+    
+}
+
+
+.item.min .firma p{
+    color:white;
+}

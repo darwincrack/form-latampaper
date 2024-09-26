@@ -94,8 +94,8 @@ blockquote{
 }
 
 .item.min .img{
-    width: 100px;
-    height: 100px;  
+    width: 70px;
+    height: 70px;  
 }
 
 .item.min .body{
@@ -128,4 +128,15 @@ blockquote{
 
 .item.min .firma p{
     color:white;
+}
+
+
+.testimonial-slider.min .slick-prev, .testimonial-slider.min .slick-next{
+
+    top:40%
+}
+
+
+.testimonial-slider.min .slick-dots{
+    display: none;
 }

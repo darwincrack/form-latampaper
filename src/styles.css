@@ -95,8 +95,11 @@ blockquote{
     width: 93px;
     height: 93px;  
     border-radius: 50%;
-    height: 110px;
+
     border: 3px solid #3639d5;
+    position: absolute;
+    top: 43px;
+
 }
 
 .item.min .body{

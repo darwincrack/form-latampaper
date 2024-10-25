@@ -79,7 +79,7 @@ const TestimonialSlider = (props) => {
                 <div className="col-3 d-flex justify-content-center align-items-center">
                 <img src={testimonial.img_flag} alt="bandera pais" className="img" />
                 </div>
-                <div className="col-9" style={{ background: '#0073b2', minHeight: '188px', borderRadius: '5px' }}>
+                <div className="col-8" style={{ background: '#0073b2', minHeight: '188px', borderRadius: '5px' }}>
 
                 <div className="body">
               <span>{parse(testimonial.util_evento)}</span>

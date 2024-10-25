@@ -1,7 +1,5 @@
 
-body{
-    background: #2c299f !important;
-}
+
 .item{
     text-align: center;
 }
@@ -45,7 +43,7 @@ margin: auto;
 }
 
 .item .body p {
-    font-size: 12px;
+    font-size: 17px;
 text-align:left;
 margin-bottom: 0.1rem;
 
@@ -94,8 +92,8 @@ blockquote{
 }
 
 .item.min .img{
-    width: 70px;
-    height: 70px;  
+    width: 80px;
+    height: 80px;  
 }
 
 .item.min .body{
@@ -133,7 +131,7 @@ blockquote{
 
 .testimonial-slider.min .slick-prev, .testimonial-slider.min .slick-next{
 
-    top:25%
+    top:19%
 }
 
 

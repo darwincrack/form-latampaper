@@ -5,6 +5,47 @@ import { obtenerFechaHora } from '../utils';
 import TitlePage from './titlePage.jsx';
 import { Editor } from '@tinymce/tinymce-react';
 
+// Función para enviar datos usando JSONP y evitar CORS
+const submitToGoogleSheets = (url, data) => {
+    return new Promise((resolve, reject) => {
+        const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+        
+        // Crear script tag para JSONP
+        const script = document.createElement('script');
+        
+        // Agregar callback global
+        window[callbackName] = (response) => {
+            delete window[callbackName];
+            document.body.removeChild(script);
+            resolve(response);
+        };
+        
+        // Construir URL con parámetros y callback
+        const params = new URLSearchParams(data);
+        params.append('callback', callbackName);
+        script.src = url + '?' + params.toString();
+        
+        // Manejar errores
+        script.onerror = () => {
+            delete window[callbackName];
+            document.body.removeChild(script);
+            reject(new Error('Error al conectar con Google Sheets'));
+        };
+        
+        // Agregar script al DOM
+        document.body.appendChild(script);
+        
+        // Timeout de 30 segundos
+        setTimeout(() => {
+            if (window[callbackName]) {
+                delete window[callbackName];
+                document.body.removeChild(script);
+                reject(new Error('Timeout: La petición tardó demasiado'));
+            }
+        }, 30000);
+    });
+};
+
  
 
 
@@ -24,7 +65,7 @@ function FormEs() {
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
-        tipo_evento: 'Latampaper México 2024',
+        tipo_evento: 'Latampaper Brasil 2025',
         nombre_empresa: '',
         cargo_empresa: '',
         util_evento: '',
@@ -74,44 +115,54 @@ function FormEs() {
 
             const Sheet_Url="https://script.google.com/macros/s/AKfycbwHaL2zYrNJREOnlXJ-m59A02cW0TjkI2Nd1eWvAU-7LBPwoQUTJRtkklxvjm-7rZH7/exec"
             try {
+                // Preparar datos del formulario
+                const dataToSend = {
+                    ...formData,
+                    pais: selectedCountry.label,
+                    fecha: fechaHora,
+                    lang: 'es',
+                    util_evento: editorRef.current.getContent(),
+                    corta_frase: editorRef2.current.getContent(),
+                    comentario_sugerencia: editorRef3.current.getContent()
+                };
 
-                formData.pais = selectedCountry.label;
-                formData.fecha = fechaHora;
-                formData.lang = 'es';
-                formData.util_evento =  editorRef.current.getContent();
-                formData.corta_frase =  editorRef2.current.getContent();
-                formData.comentario_sugerencia =  editorRef3.current.getContent();
-                const response =  await fetch(Sheet_Url, {
-                method: 'POST',
-                body: new URLSearchParams(formData)
-              });
-              const result = await response.json();
-              setIsLoading(false);
+                // Usar JSONP para evitar CORS
+                const result = await submitToGoogleSheets(Sheet_Url, dataToSend);
+                
+                setIsLoading(false);
 
-              if (result.result === 'success') {
-                setSuccessMessage('Gracias por tu comentario!');
-                document.body.scrollIntoView({ behavior: 'smooth' });
-                setFormData({  nombre: '',
-                  apellido: '',
-                  tipo_evento: 'Latampaper México 2024',
-                  nombre_empresa: '',
-                  cargo_empresa: '',
-                  util_evento: '',
-                  corta_frase: '',
-                  img_flag:'',
-                  img_empresa:'',
-                  comentario_sugerencia: '',
-                  tipo_usuario:'supplier' });
-              
-
-              } else {
-                setErrorMessage('There was an error sending your comment. Please try again.');
-              }
+                if (result.result === 'success') {
+                    setSuccessMessage('¡Gracias por tu comentario!');
+                    setErrorMessage(''); // Limpiar mensaje de error anterior
+                    document.body.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Limpiar formulario
+                    setFormData({  
+                        nombre: '',
+                        apellido: '',
+                        tipo_evento: 'Latampaper Brasil 2025',
+                        nombre_empresa: '',
+                        cargo_empresa: '',
+                        util_evento: '',
+                        corta_frase: '',
+                        img_flag:'',
+                        img_empresa:'',
+                        comentario_sugerencia: '',
+                        tipo_usuario:'supplier' 
+                    });
+                    
+                    // Limpiar editores TinyMCE
+                    if (editorRef.current) editorRef.current.setContent('');
+                    if (editorRef2.current) editorRef2.current.setContent('');
+                    if (editorRef3.current) editorRef3.current.setContent('');
+                } else {
+                    setErrorMessage('Hubo un error al enviar tu comentario. Por favor intenta de nuevo.');
+                    setSuccessMessage(''); // Limpiar mensaje de éxito anterior
+                }
             } catch (error) {
-      
-
-                setErrorMessage('There was an error sending your comment. Please try again.');
-
+                console.error('Error al enviar formulario:', error);
+                setErrorMessage('Hubo un error al enviar tu comentario. Por favor intenta de nuevo.');
+                setSuccessMessage(''); // Limpiar mensaje de éxito anterior
             }
             setIsLoading(false);
             setValidated(false);
@@ -209,7 +260,7 @@ function FormEs() {
               onInit={(_evt, editor) => editorRef.current = editor}
               init={
                 {
-                        height: 200,
+                        height: 300,
                         menubar: true,
                         paste_as_text: true,
                       plugins: [
@@ -235,7 +286,7 @@ function FormEs() {
               onInit={(_evt, editor) => editorRef2.current = editor}
               init={
                 {
-                        height: 200,
+                        height: 300,
                         menubar: true,
                         paste_as_text: true,
                       plugins: [
@@ -259,7 +310,7 @@ function FormEs() {
               onInit={(_evt, editor) => editorRef3.current = editor}
               init={
                 {
-                        height: 200,
+                        height: 300,
                         menubar: true,
                         paste_as_text: true,
                       plugins: [

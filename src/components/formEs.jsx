@@ -175,14 +175,51 @@ function FormEs() {
                     comentario_sugerencia: editorRef3.current.getContent()
                 };
 
-                // Usar método de formulario (más confiable que JSONP)
-                const result = await submitToGoogleSheetsForm(Sheet_Url, dataToSend);
-                
-                setIsLoading(false);
+                // Mostrar datos que se van a enviar para debugging
+                console.log('Datos a enviar:', dataToSend);
+                console.log('URL del script:', Sheet_Url);
 
-                if (result.result === 'success') {
-                    setSuccessMessage('¡Gracias por tu comentario!');
-                    setErrorMessage(''); // Limpiar mensaje de error anterior
+                // Primero intentar con modo normal para obtener información de errores
+                try {
+                    const formData = new FormData();
+                    Object.keys(dataToSend).forEach(key => {
+                        formData.append(key, dataToSend[key] || '');
+                        console.log(`Campo ${key}:`, dataToSend[key]);
+                    });
+
+                    console.log('Enviando datos a Google Sheets...');
+                    
+                    // Intentar primero con modo normal para detectar errores
+                    let response;
+                    try {
+                        response = await fetch(Sheet_Url, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.text();
+                            console.log('Respuesta del servidor:', result);
+                            setSuccessMessage('¡Gracias por tu comentario! Los datos han sido enviados correctamente a Google Sheets.');
+                            setErrorMessage('');
+                        } else {
+                            throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+                        }
+                    } catch (corsError) {
+                        console.log('Error CORS detectado, probando con no-cors:', corsError.message);
+                        
+                        // Si hay error CORS, intentar con no-cors
+                        response = await fetch(Sheet_Url, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            body: formData
+                        });
+                        
+                        console.log('Datos enviados con modo no-cors');
+                        setSuccessMessage('Los datos han sido enviados. Si no aparecen en Google Sheets, revisa la configuración del script.');
+                        setErrorMessage('');
+                    }
+                    
                     document.body.scrollIntoView({ behavior: 'smooth' });
                     
                     // Limpiar formulario
@@ -204,9 +241,20 @@ function FormEs() {
                     if (editorRef.current) editorRef.current.setContent('');
                     if (editorRef2.current) editorRef2.current.setContent('');
                     if (editorRef3.current) editorRef3.current.setContent('');
-                } else {
-                    setErrorMessage('Hubo un error al enviar tu comentario. Por favor intenta de nuevo.');
-                    setSuccessMessage(''); // Limpiar mensaje de éxito anterior
+
+                } catch (fetchError) {
+                    console.error('Error completo al enviar:', fetchError);
+                    
+                    if (fetchError.message.includes('403')) {
+                        setErrorMessage('Error 403: El script de Google no tiene permisos configurados. Contacta al administrador para configurar el acceso público.');
+                        setSuccessMessage('');
+                    } else if (fetchError.message.includes('404')) {
+                        setErrorMessage('Error 404: La URL del script no es correcta o el script no existe.');
+                        setSuccessMessage('');
+                    } else {
+                        setErrorMessage(`Error al conectar: ${fetchError.message}. Por favor intenta de nuevo.`);
+                        setSuccessMessage('');
+                    }
                 }
             } catch (error) {
                 console.error('Error al enviar formulario:', error);

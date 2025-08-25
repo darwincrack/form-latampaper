@@ -15,7 +15,11 @@ const TestimonialSlider = (props) => {
     };
   })
 
-  const testimonios = props.testimonios;
+  // Filtrar testimonios para mostrar solo "Latampaper Brasil 2025"
+  const testimoniosFiltrados = props.testimonios.filter(testimonial => 
+    testimonial.tipo_evento === "Latampaper Brasil 2025"
+  );
+  const testimonios = testimoniosFiltrados;
   const settings = {
     dots: false,
     infinite: true,

@@ -73,6 +73,7 @@ const TestimonialSlider = (props) => {
               <p>{testimonial.nombre} {testimonial.apellido}</p>
               <p>{testimonial.cargo_empresa}, {testimonial.nombre_empresa} </p>
               <p>{testimonial.pais}</p>
+              <p>{testimonial.tipo_evento}</p>
               <img src={testimonial.img_empresa} alt={testimonial.nombre_empresa} className="logotipos" />
             </div>
           </div>

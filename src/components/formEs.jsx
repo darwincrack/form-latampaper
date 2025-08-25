@@ -5,8 +5,51 @@ import { obtenerFechaHora } from '../utils';
 import TitlePage from './titlePage.jsx';
 import { Editor } from '@tinymce/tinymce-react';
 
-// Función para enviar datos usando JSONP y evitar CORS
-const submitToGoogleSheets = (url, data) => {
+// Función para enviar datos usando formulario oculto (método simple sin CORS)
+const submitToGoogleSheetsForm = (url, data) => {
+    return new Promise((resolve) => {
+        // Crear formulario oculto
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+        form.target = 'hidden_iframe'; // Usar iframe oculto en lugar de nueva pestaña
+        form.style.display = 'none';
+
+        // Crear iframe oculto si no existe
+        let iframe = document.getElementById('hidden_iframe');
+        if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.id = 'hidden_iframe';
+            iframe.name = 'hidden_iframe';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+        }
+
+        // Agregar campos al formulario
+        Object.keys(data).forEach(key => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = data[key] || '';
+            form.appendChild(input);
+        });
+
+        // Agregar al DOM y enviar
+        document.body.appendChild(form);
+        form.submit();
+        
+        // Limpiar después de un momento
+        setTimeout(() => {
+            if (document.body.contains(form)) {
+                document.body.removeChild(form);
+            }
+            resolve({ result: 'success' }); // Asumimos éxito
+        }, 2000);
+    });
+};
+
+// Función para enviar datos usando JSONP
+const submitToGoogleSheetsJSONP = (url, data) => {
     return new Promise((resolve, reject) => {
         const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
         
@@ -16,7 +59,9 @@ const submitToGoogleSheets = (url, data) => {
         // Agregar callback global
         window[callbackName] = (response) => {
             delete window[callbackName];
-            document.body.removeChild(script);
+            if (document.body.contains(script)) {
+                document.body.removeChild(script);
+            }
             resolve(response);
         };
         
@@ -28,21 +73,25 @@ const submitToGoogleSheets = (url, data) => {
         // Manejar errores
         script.onerror = () => {
             delete window[callbackName];
-            document.body.removeChild(script);
+            if (document.body.contains(script)) {
+                document.body.removeChild(script);
+            }
             reject(new Error('Error al conectar con Google Sheets'));
         };
         
         // Agregar script al DOM
         document.body.appendChild(script);
         
-        // Timeout de 30 segundos
+        // Timeout de 15 segundos (reducido)
         setTimeout(() => {
             if (window[callbackName]) {
                 delete window[callbackName];
-                document.body.removeChild(script);
+                if (document.body.contains(script)) {
+                    document.body.removeChild(script);
+                }
                 reject(new Error('Timeout: La petición tardó demasiado'));
             }
-        }, 30000);
+        }, 15000);
     });
 };
 
@@ -126,8 +175,8 @@ function FormEs() {
                     comentario_sugerencia: editorRef3.current.getContent()
                 };
 
-                // Usar JSONP para evitar CORS
-                const result = await submitToGoogleSheets(Sheet_Url, dataToSend);
+                // Usar método de formulario (más confiable que JSONP)
+                const result = await submitToGoogleSheetsForm(Sheet_Url, dataToSend);
                 
                 setIsLoading(false);
 

@@ -119,6 +119,7 @@ function Formulario() {
               onChange={handleChange}
             required>
                 <option value="">Select the event</option>
+                <option value="Latampaper Brasil 2025">Latampaper Brasil 2025</option>
                 <option value="Latampaper México 2024">Latampaper México 2024</option>
                 <option value="LatamCORR México 2024">LatamCORR México 2024</option>
             </Form.Select>

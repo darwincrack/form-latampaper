@@ -6,8 +6,8 @@ import TestimonialSliderMin from './testimonialSlidermin.jsx'
 import { useParams } from 'react-router-dom';
 
 
-function Google() {
-  const { id } = useParams();
+function Google({ componentType }) {
+  const { eventId } = useParams();
 
     const { data, loading, error } = useGoogleSheets({
         apiKey: 'AIzaSyCjekNDQKCmqdqqaTxOInd3o_EzpcqzM8c',
@@ -22,14 +22,28 @@ function Google() {
         return <div>Error!</div>;
       }
 
+      // Mapeo de eventId a tipos de eventos
+      const eventTypeMapping = {
+        '1': 'Latampaper México 2024',
+        '2': 'Latampaper Brasil 2025'
+      };
 
       const reverseTestimonios = [...data[0]['data']]; // Crea una copia
       reverseTestimonios.reverse(); // Invierte el orden
 
+      // Filtrar testimonios por tipo de evento si se proporciona un eventId
+      let filteredTestimonios = reverseTestimonios;
+      if (eventId && eventTypeMapping[eventId]) {
+        const eventType = eventTypeMapping[eventId];
+        filteredTestimonios = reverseTestimonios.filter(testimonio => 
+          testimonio.tipo_evento === eventType
+        );
+      }
+
      // console.log(reverseTestimonios.reverse());
   return (
     <>
-      {id ? <TestimonialSliderMin testimonios={reverseTestimonios} /> : <TestimonialSlider testimonios={reverseTestimonios} />}
+      {componentType === 'slidermin' ? <TestimonialSliderMin testimonios={filteredTestimonios} /> : <TestimonialSlider testimonios={filteredTestimonios} />}
     </>
   )
 }

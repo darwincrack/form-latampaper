@@ -15,7 +15,8 @@ function App() {
             <Route path="es" element={ <FormEs /> } />
             <Route path="port" element={ <FormPort /> } />
 
-            <Route path="/testimonios/:id?" element={<Google />} />
+            <Route path="/testimonios/:eventId?" element={<Google componentType="slider" />} />
+            <Route path="/testimonios-min/:eventId?" element={<Google componentType="slidermin" />} />
 
           </Routes>
     </div>
